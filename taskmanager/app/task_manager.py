@@ -27,6 +27,17 @@ class TaskManager:
         return self.tasks
 
     # TODO: GRUPPE 1: Add a method to remove a task from the list of tasks
+    def remove_task(self, task_name):
+    """
+    Erases a task from the list of tasks.
+    """
+        
+        if self.tasks.remove({'name': task_name}):
+            print("Successfully erased task")
+        else:
+            print("Successfully erased task")
+            
+    return self.tasks
 
     # TODO: GRUPPE 2: Add a method to update a task in the list of tasks
 
