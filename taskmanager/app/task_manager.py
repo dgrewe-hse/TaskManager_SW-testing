@@ -32,6 +32,18 @@ class TaskManager:
 
     # TODO: GRUPPE 3: Add a method to get a task from the list of tasks
 
+    def get_task(self, task_name):
+        """
+        Returns a task by its name.
+        """
+        # Suche Task mit dem angegebenen Namen
+        for task in self.tasks:
+            if task['name'] == task_name:
+                return task
+        print(f"Task '{task_name}' Task not found.\n")
+        return None
+
+
     def clear_tasks(self):
         """
         Clears the list of tasks.
