@@ -14,11 +14,13 @@ from taskmanager.app.task_manager import TaskManager
 def step_given_user_is_using_task_manager_application(context):
     """Set up the task manager application for the user."""
     context.task_manager = TaskManager() # Initialize the task manager
+    context.task_manager.clear_tasks() # clear all tasks for fresh start
 
-@given('the name of the irrelevant task is available')
-def step_user_defines_task_as_irrelevant(context):
-    """Set up the task management application for the user."""
-    context.task_name = "Task to be erased"
+@given('a task with the name "{task_name}" is in the task list')
+def step_user_adds_task_to_list(context, task_name):
+    """Set up the task management application for the user. Add a task."""
+    context.task_manager.add_task(task_name)
+    context.task_name = task_name
 
 @when('the user erases the task with the name "{task_name}"')
 def step_when_user_erases_task (context, task_name):
@@ -26,9 +28,9 @@ def step_when_user_erases_task (context, task_name):
     context.task_manager.remove_task(task_name)  #Erase task using task manager
 
 
-@then('the task disappears from the task list')
-def step_when_the_task_disappears_from_the_list(context):
+@then('the task "{task_name}" should not be present in the task list')
+def step_then_task_not_in_list(context, task_name):
     """Check that the erased task is not in the list of tasks anymore"""
     tasks = context.task_manager.get_all_tasks() #Retrieve all tasks
-    assert context.Failed is False 
-    
+    task_names = [task['name'] for task in tasks]  # Extract all names of the tasks
+    assert task_name not in task_names, f"The task '{task_name}' wasn't removed from the list" 

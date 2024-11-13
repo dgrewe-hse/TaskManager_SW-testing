@@ -19,6 +19,12 @@ class TaskManager:
         Adds a new task to the list of tasks.
         """
         self.tasks.append({'name': task_name, 'description': task_description})
+    
+    def add_task(self, task_name):
+        """
+        Adds a new task to the list of tasks.
+        """
+        self.tasks.append({'name': task_name})
 
     def get_all_tasks(self):
         """
@@ -31,6 +37,7 @@ class TaskManager:
         """
         Erases a task from the list of tasks.
         """
+        #self.tasks.append({'name': task_name})
         self.tasks.remove({'name': task_name})
     
     # TODO: GRUPPE 2: Add a method to update a task in the list of tasks
