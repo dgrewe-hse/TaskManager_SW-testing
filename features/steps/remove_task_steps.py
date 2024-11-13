@@ -22,7 +22,7 @@ def step_given_user_is_using_task_manager_application(context):
 def step_user_defines_task_as_irrelevant(context, task_name):
 # Erzeugen eines tasks mit Namen “task_name” und speichern mittels add_task()
     """Add a new task with the given name."""
-    context.task_manager.add_task(task_name)  # Add the task using the task manager
+    context.task_manager.add_task(task_name, "Dummy description")  # Add the task using the task manager
 
 # prüfen mit assert, ob task in task list verfügbar, z.B.: mit get_all_tasks()
     """Check that the newly created task is in the list of tasks."""
@@ -31,7 +31,7 @@ def step_user_defines_task_as_irrelevant(context, task_name):
         "The task {task_name} was not found in the list of tasks." 
 
 @when('the user erases the task "{task_name}" from the list of tasks')
-def step_when_user_erases_task (context,task_name):
+def step_when_user_erases_task(context,task_name):
 # hier wird nun die von euch implementierte remove_task() Funktion gerufen
     context.task_manager.remove_task(task_name)  #Erase task using task manager
 

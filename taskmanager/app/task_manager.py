@@ -20,17 +20,18 @@ class TaskManager:
         """
         self.tasks.append({'name': task_name, 'description': task_description})
     
-    def add_task(self, task_name):
-        """
-        Adds a new task to the list of tasks.
-        """
-        self.tasks.append({'name': task_name})
-
     def get_all_tasks(self):
         """
         Returns all tasks.
         """
         return self.tasks
+
+    def get_task_by_name(self, task_name):
+        """Find a task by its name."""
+        for task in self.tasks:
+            if task['name'] == task_name:
+                return task
+        raise KeyError(f"Task with name '{task_name}' not found.")
 
     # TODO: GRUPPE 1: Add a method to remove a task from the list of tasks
     def remove_task(self, task_name):
@@ -38,7 +39,8 @@ class TaskManager:
         Erases a task from the list of tasks.
         """
         #self.tasks.append({'name': task_name})
-        self.tasks.remove({'name': task_name})
+        #self.tasks.remove({'name': task_name})
+        self.tasks = [task for task in self.tasks if task['name'] != task_name]
     
     # TODO: GRUPPE 2: Add a method to update a task in the list of tasks
 
