@@ -42,7 +42,23 @@ class TaskManager:
         #self.tasks.remove({'name': task_name})
         self.tasks = [task for task in self.tasks if task['name'] != task_name]
     
-    # TODO: GRUPPE 2: Add a method to update a task in the list of tasks
+    def update_task(self, task_name, new_task_name=None, new_task_description=None):
+        """
+        Updates an existing task's name and/or description.
+        :param task_name: The name of the task to update.
+        :param new_name: The new name of the task (optional).
+        :param new_description: The new description of the task (optional).
+        :return: True if the task was updated, False if the task was not found.
+        """
+        for task in self.tasks:
+            if task['name'] == task_name:
+                if new_task_name:
+                    task['name'] = new_task_name
+                if new_task_description:
+                    task['description'] = new_task_description
+                return True  # Task updated successfully
+        return False  # Task not found
+
 
     def get_task(self, task_name):
         """
