@@ -1,0 +1,48 @@
+name: CI Workflow  # Name of the workflow
+
+on:
+  push:  # Trigger the workflow on push events
+    branches:
+      - main  # Only trigger on the main branch
+  pull_request:  # Trigger the workflow on pull request events
+    branches:
+      - main  # Only trigger on pull requests targeting the main branch
+
+jobs:
+  build:  # Define a job named 'build'
+    runs-on: ${{ matrix.os }}  # Use the operating system defined in the matrix
+    strategy:
+      matrix:  # Define a matrix for running jobs on different architectures
+        os: [ubuntu-latest]  # Specify the OS to use
+        arch: [x86, arm64]  # Specify the architectures to test (x86 and ARM)
+
+    steps:  # Define the steps to execute in this job
+      - name: Checkout code  # Step to check out the repository code
+        uses: actions/checkout@v2  # Use the checkout action to pull the code
+
+      - name: Set up Python  # Step to set up the Python environment
+        uses: actions/setup-python@v2  # Use the setup-python action
+        with:
+          python-version: '3.8'  # Specify the Python version to use
+
+      - name: Install dependencies  # Step to install project dependencies
+        run: |
+          python -m pip install --upgrade pip  # Upgrade pip to the latest version
+          pip install -r requirements.txt  # Install dependencies from requirements.txt
+
+      - name: Run tests  # Step to run the test suite
+        run: |
+          # Replace with your test command
+          pytest tests/  # Run tests using pytest
+
+      - name: Package the project  # Step to package the Python project
+        run: |
+          # Replace with your packaging command
+          python setup.py sdist bdist_wheel  # Create source and wheel distributions
+
+      - name: Build Docker image  # Step to build the Docker image
+        run: |
+          # Build the Docker image for the specified architecture
+          docker build -t your-image-name:${{ matrix.arch }} --platform linux/${{ matrix.arch }} .
+          # Optionally push the image to a registry
+          # docker push your-image-name:${{ matrix.arch }}  # Uncomment to push the image
