@@ -40,11 +40,11 @@ A simple REST API for managing tasks using Flask. This API allows you to create,
     }
     ```
 
-- **DELETE /tasks/<task_id>**
-  - Removes a task by its index.
+- **DELETE /tasks/<task-name>**
+  - Removes a task by its name.
 
-- **PUT /tasks/<task_id>**
-  - Updates a task by its index.
+- **PUT /tasks/<task-name>**
+  - Updates a task by its name.
   - **Request Body:**
     ```json
     {
@@ -66,26 +66,32 @@ The following examples are based on [curl](https://curl.se/) (only in Linux term
 1. Get all tasks:
 
    ```bash
-   curl http://127.0.0.1:5000/tasks
+   curl -X GET http://127.0.0.1:5000/tasks
    ```
 
-2. Add a task:
+2. Add a task (POST):
 
    ```bash
-   curl -X POST -H "Content-Type: application/json" -d '{"name": "Task Name", "description": "Task Description"}' http://127.0.0.1:5000/tasks
+   curl -X POST http://127.0.0.1:5000/tasks \
+     -H "Content-Type: application/json" \
+     -d '{"name": "My Task", "description": "This is a task description."}'
    ```
 
-3. Remove a task:
+5. Update a task (PUT):
 
    ```bash
-   curl -X DELETE http://127.0.0.1:5000/tasks/0
+   curl -X PUT http://127.0.0.1:5000/tasks/My%20Task \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Updated Task", "description": "Updated description."}'
    ```
 
-4. Update a task:
+4. Remove a task (DELETE):
 
    ```bash
-   curl -X PUT -H "Content-Type: application/json" -d '{"name": "Updated Task Name", "description": "Updated Task Description"}' http://127.0.0.1:5000/tasks/0
+   curl -X DELETE http://127.0.0.1:5000/tasks/Updated%20Task
    ```
+
+
 
 5. Clear all tasks:
 
