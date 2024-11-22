@@ -35,6 +35,11 @@ jobs:
           # Replace with your test command
           pytest tests/  # Run tests using pytest
 
+      - name: Measure code coverage  # Step to measure code coverage
+        run: |
+          coverage run -m pytest
+          coverage report
+
       - name: Package the project  # Step to package the Python project
         run: |
           # Replace with your packaging command
