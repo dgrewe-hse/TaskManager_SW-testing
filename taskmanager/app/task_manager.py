@@ -6,75 +6,87 @@
 
 class TaskManager:
     """
-    This class manages a list of tasks. It initializes an empty list of tasks.
+    This class manages a dictionary of tasks. It initializes an empty dictionary of tasks.
     """
 
     def __init__(self):
         """
-        Initializes the TaskManager with an empty list of tasks.
+        Initializes the TaskManager with an empty dictionary of tasks.
         """
-        self.tasks = []
+        self.tasks = {}
 
     def add_task(self, task_name, task_description):
         """
-        Adds a new task to the list of tasks.
+        Adds a new task to the dictionary of tasks.
         """
-        if task_name == "":
+        # Check if the task name is valid
+        if task_name is None or task_name == "":
             raise ValueError("Name cannot be empty")
-        self.tasks.append({"name": task_name, "description": task_description})
+        # Check if the task description is valid
+        if len(task_name) > 255 or len(task_description) > 255:
+            raise ValueError("Name or description cannot be longer than 255 characters")
+        if task_name in self.tasks:
+            raise ValueError("Task with this name already exists.")
+        self.tasks[task_name] = {"description": task_description}
 
     def get_all_tasks(self):
         """
-        Returns all tasks.
+        Returns all tasks as a dictionary.
         """
         return self.tasks
 
     def get_task_by_name(self, task_name):
         """Find a task by its name."""
-        for task in self.tasks:
-            if task["name"] == task_name:
-                return task
-        raise KeyError(f"Task with name '{task_name}' not found.")
+        if task_name is None or task_name == "":
+            raise ValueError("Name cannot be empty")
+        if task_name not in self.tasks:
+            raise KeyError(f"Task with name '{task_name}' not found.")
+        return {task_name: self.tasks[task_name]}
 
-    # TODO: GRUPPE 1: Add a method to remove a task from the list of tasks
     def remove_task(self, task_name):
         """
-        Erases a task from the list of tasks.
+        Erases a task from the dictionary of tasks.
         """
-        # self.tasks.append({'name': task_name})
-        # self.tasks.remove({'name': task_name})
-        self.tasks = [task for task in self.tasks if task["name"] != task_name]
+        if task_name is None or task_name == "":
+            raise ValueError("Name cannot be empty")
+        if task_name not in self.tasks:
+            raise KeyError(f"Task with name '{task_name}' not found.")
+        del self.tasks[task_name]
 
     def update_task(self, task_name, new_task_name=None, new_task_description=None):
         """
         Updates an existing task's name and/or description.
         :param task_name: The name of the task to update.
-        :param new_name: The new name of the task (optional).
-        :param new_description: The new description of the task (optional).
+        :param new_task_name: The new name of the task (optional).
+        :param new_task_description: The new description of the task (optional).
         :return: True if the task was updated, False if the task was not found.
         """
-        for task in self.tasks:
-            if task["name"] == task_name:
-                if new_task_name:
-                    task["name"] = new_task_name
-                if new_task_description:
-                    task["description"] = new_task_description
-                return True  # Task updated successfully
-        return False  # Task not found
+        if task_name is None or task_name == "":
+            raise ValueError("Name cannot be empty")
+        if task_name not in self.tasks:
+            return False  # Task not found
 
-    def get_task(self, task_name):
-        """
-        Returns a task by its name.
-        """
-        # Suche Task mit dem angegebenen Namen
-        for task in self.tasks:
-            if task["name"] == task_name:
-                return task
-        print(f"Task '{task_name}' Task not found.\n")
-        return None
+        # Check if the new name is valid
+        if new_task_name == "":
+            raise ValueError("Name cannot be empty")
+        if new_task_description == "":
+            raise ValueError("Description cannot be empty")
+
+        # Update the task
+        if new_task_name:
+            self.tasks[new_task_name] = self.tasks.pop(task_name)
+            self.tasks[new_task_name]["description"] = (
+                new_task_description
+                if new_task_description
+                else self.tasks[new_task_name]["description"]
+            )
+        elif new_task_description:
+            self.tasks[task_name]["description"] = new_task_description
+
+        return True  # Task updated successfully
 
     def clear_tasks(self):
         """
-        Clears the list of tasks.
+        Clears the dictionary of tasks.
         """
-        self.tasks = []
+        self.tasks.clear()
