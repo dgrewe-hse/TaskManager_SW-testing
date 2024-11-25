@@ -39,6 +39,32 @@ def add_task():
     # return HTTP status code 201 == Created
     return jsonify({"message": "Task created successfully"}), 201
 
+@app.route("/tasks/<string:task_name>", methods=["PUT"])
+def update_task(task_name):
+    # get data from request
+    data = request.get_json()
+
+    # extract name and description from data
+    new_name = data.get("new_name")
+    new_description = data.get("new_description")
+
+    # check if name and description are valid
+    if not new_name and not new_description:
+        return jsonify({"error": "At least one field (new_name or new_description) must be provided"}), 400
+    
+    # check if the task exists
+    task = task_manager.get_task_by_name(task_name)
+    if not task:
+        return jsonify({"error": f"Task with name '{task_name}' not found"}), 404
+    
+    # call TaskManager's update_task method
+    task_manager.update_task(
+        task_name, 
+        new_task_name=new_name, 
+        new_task_description=new_description
+    )
+    # return success message
+    return jsonify({"message": "Task updated successfully"}), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
