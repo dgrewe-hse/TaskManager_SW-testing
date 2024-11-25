@@ -39,6 +39,20 @@ def add_task():
     # return HTTP status code 201 == Created
     return jsonify({"message": "Task created successfully"}), 201
 
+# remove one task from the task manager
+@app.route("/tasks/<task_name>", methods=["DELETE"])
+def delete_task(task_name):
+ 
+   try:
+       # delete task from task manager
+       task_manager.remove_task(task_name)
+       # return to user that deletion was successful
+       return jsonify({"message": "Task deleted successfully"}), 204
+ 
+   except KeyError:
+       # return 404 if task does not exist
+       return jsonify({"error": "Task not found"}), 404
+
 
 if __name__ == "__main__":
     app.run(debug=True)

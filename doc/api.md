@@ -21,7 +21,7 @@ A simple REST API for managing tasks using Flask. This API allows you to create,
    python taskmanager/app/api.py
    ```
 
-   The API will be available at `http://127.0.0.1:5000`.
+   The API will be available at `http://127.0.0`.
 
 2. **Interact with the API using tools like Postman or curl.**
 
