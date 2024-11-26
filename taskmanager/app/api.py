@@ -47,7 +47,7 @@ def delete_task(task_name):
        # delete task from task manager
        task_manager.remove_task(task_name)
        # return to user that deletion was successful
-       return jsonify({"message": "Task deleted successfully"}), 204
+       return jsonify({"message": "Task deleted successfully"}), 200
  
    except KeyError:
        # return 404 if task does not exist
