@@ -43,28 +43,21 @@ def add_task():
 def update_task(task_name):
     # get data from request
     data = request.get_json()
+    # extract new name and description from data
+    new_name = data.get("name")
+    new_description = data.get("description")
 
-    # extract name and description from data
-    new_name = data.get("new_name")
-    new_description = data.get("new_description")
-
-    # check if name and description are valid
-    if not new_name and not new_description:
-        return jsonify({"error": "At least one field (new_name or new_description) must be provided"}), 400
-    
-    # check if the task exists
-    task = task_manager.get_task_by_name(task_name)
-    if not task:
-        return jsonify({"error": f"Task with name '{task_name}' not found"}), 404
-    
-    # call TaskManager's update_task method
-    task_manager.update_task(
-        task_name, 
-        new_task_name=new_name, 
-        new_task_description=new_description
-    )
-    # return success message
-    return jsonify({"message": "Task updated successfully"}), 200
+    try:
+        # try to update task in task manager
+        task_manager.update_task(task_name, new_name, new_description)
+        # return HTTP status code 200 == OK
+        return jsonify({"message": "Task updated successfully"}), 200
+    except KeyError:
+        # return HTTP status code 404 == Not Found
+        return jsonify({"error": f"Task with name '{task_name}' not found."}), 404
+    except ValueError as e:
+        # return HTTP status code 400 == Bad Request
+        return jsonify({"error": str(e)}), 400
 
 if __name__ == "__main__":
     app.run(debug=True)
