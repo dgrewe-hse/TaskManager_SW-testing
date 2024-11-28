@@ -53,6 +53,25 @@ def delete_task(task_name):
        # return 404 if task does not exist
        return jsonify({"error": "Task not found"}), 404
 
+@app.route("/tasks/<string:task_name>", methods=["PUT"])
+def update_task(task_name):
+    # get data from request
+    data = request.get_json()
+    # extract new name and description from data
+    new_name = data.get("name")
+    new_description = data.get("description")
+
+    try:
+        # try to update task in task manager
+        task_manager.update_task(task_name, new_name, new_description)
+        # return HTTP status code 200 == OK
+        return jsonify({"message": "Task updated successfully"}), 200
+    except KeyError:
+        # return HTTP status code 404 == Not Found
+        return jsonify({"error": f"Task with name '{task_name}' not found."}), 404
+    except ValueError as e:
+        # return HTTP status code 400 == Bad Request
+        return jsonify({"error": str(e)}), 400
 
 if __name__ == "__main__":
     app.run(debug=True)
