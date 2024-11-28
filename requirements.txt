@@ -7,3 +7,7 @@ pre-commit==4.0.1
 
 # REST API framework
 Flask==3.0.1
+
+# packaging
+setuptools==69.2.0
+wheel==0.42.0

@@ -37,3 +37,8 @@ jobs:
       - name: Run tests  # Step to run the tests
         run: |
           pytest  # Run the tests using pytest
+
+      - name: Package the project  # Step to package the Python project
+        run: |
+          # Replace with your packaging command
+          python setup.py sdist bdist_wheel  # Create source and wheel distributions
