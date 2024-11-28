@@ -21,7 +21,7 @@ def get_all_tasks():
     return jsonify(task_manager.get_all_tasks()), 200
 
 
-@app.route("/tasks", methods=["POST"])
+@app.route("/task", methods=["POST"])
 def add_task():
     # get data from request
     data = request.get_json()
@@ -40,7 +40,7 @@ def add_task():
     return jsonify({"message": "Task created successfully"}), 201
 
 # remove one task from the task manager
-@app.route("/tasks/<task_name>", methods=["DELETE"])
+@app.route("/task/<task_name>", methods=["DELETE"])
 def delete_task(task_name):
  
    try:
@@ -53,7 +53,7 @@ def delete_task(task_name):
        # return 404 if task does not exist
        return jsonify({"error": "Task not found"}), 404
 
-@app.route("/tasks/<string:task_name>", methods=["PUT"])
+@app.route("/task/<string:task_name>", methods=["PUT"])
 def update_task(task_name):
     # get data from request
     data = request.get_json()
