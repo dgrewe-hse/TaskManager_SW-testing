@@ -73,5 +73,13 @@ def update_task(task_name):
         # return HTTP status code 400 == Bad Request
         return jsonify({"error": str(e)}), 400
 
+
+@app.route("/tasks", methods=["DELETE"])
+def clear_all_tasks():
+    # delete all tasks
+    task_manager.clear_tasks()
+    # return to user that delete was succesful
+    return jsonify({"message":"All tasks were deleted succesfully"}), 200
+
 if __name__ == "__main__":
     app.run(debug=True)
