@@ -41,19 +41,20 @@ def add_task():
     # return HTTP status code 201 == Created
     return jsonify({"message": "Task created successfully"}), 201
 
+
 # remove one task from the task manager
 @app.route("/task/<task_name>", methods=["DELETE"])
 def delete_task(task_name):
- 
-   try:
-       # delete task from task manager
-       task_manager.remove_task(task_name)
-       # return to user that deletion was successful
-       return jsonify({"message": "Task deleted successfully"}), 200
- 
-   except KeyError:
-       # return 404 if task does not exist
-       return jsonify({"error": "Task not found"}), 404
+    try:
+        # delete task from task manager
+        task_manager.remove_task(task_name)
+        # return to user that deletion was successful
+        return jsonify({"message": "Task deleted successfully"}), 200
+
+    except KeyError:
+        # return 404 if task does not exist
+        return jsonify({"error": "Task not found"}), 404
+
 
 @app.route("/task/<string:task_name>", methods=["PUT"])
 def update_task(task_name):
@@ -81,7 +82,8 @@ def clear_all_tasks():
     # delete all tasks
     task_manager.clear_tasks()
     # return to user that delete was succesful
-    return jsonify({"message":"All tasks were deleted succesfully"}), 200
+    return jsonify({"message": "All tasks were deleted succesfully"}), 200
+
 
 @app.route("/tasks/<name>", methods=["DELETE"])
 def remove_task(name):
@@ -93,27 +95,6 @@ def remove_task(name):
     except KeyError:
         # return HTTP status code 404 == Not Found
         return jsonify({"error": "Task not found"}), 404
-
-
-@app.route("/tasks/<name>", methods=["PUT"])
-def update_task(name):
-    # get data from request
-    data = request.get_json()
-    # extract new name and description from data
-    new_name = data.get("name")
-    new_description = data.get("description")
-
-    try:
-        # try to update task in task manager
-        task_manager.update_task(name, new_name, new_description)
-        # return HTTP status code 200 == OK
-        return jsonify({"message": "Task updated successfully"}), 200
-    except KeyError:
-        # return HTTP status code 404 == Not Found
-        return jsonify({"error": f"Task with name '{name}' not found."}), 404
-    except ValueError as e:
-        # return HTTP status code 400 == Bad Request
-        return jsonify({"error": str(e)}), 400
 
 
 @app.route("/tasks", methods=["DELETE"])
